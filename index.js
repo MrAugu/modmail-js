@@ -36,57 +36,6 @@ class Bot extends Client {
       }
     };
 
-    this.separateText = (text, lineChar, maxChar) => {
-      if (!text) return "";
-      if (!lineChar) return "NOLINEMAXCHAR";
-      if (!maxChar) return "NOWORDMAXCHAR";
-
-      const words = [];
-      const fetched = [];
-      var lineLength = 0;
-
-      const txt = text.split(" ");
-      for (const word of txt) {
-        words.push(word);
-      }
-
-      if (words.length < 2 && words[0].length < maxChar) {
-        return words[0];
-      }
-
-      for (var word of words) {
-        lineLength += word.length;
-        if (lineLength > lineChar) {
-          fetched[fetched.length - 1] = fetched[fetched.length - 1] += "\n";
-          lineLength = word.length;
-        } if (word.length > lineChar) {
-          const regEx = new RegExp("(.{1," +  lineChar + "})", "g");
-          word = word.replace(regEx, '$1-\n');
-        }
-
-        fetched.push(word);
-    }
-
-  return fetched.join(" ");
-};
-    this.textLocation = (size, from, to, fromTrue, toTrue, fromRem, toRem) => {
-      // from <- - | + ->
-
-      //  + | | ^ -
-      // to V
-
-      for (var i = 0; i < size; i++) {
-        if (fromTrue === true) {
-          from -= fromRem;
-        }
-
-        if (toTrue === true) {
-         to -= toRem;
-        }
-      }
-      return { from: from, to: to };
-    };
-
     this.clean = async (client, text) => {
       if (text && text.constructor.name == "Promise") text = await text;
       if (typeof evaled !== "string") text = require("util").inspect(text, {depth: 0});
@@ -151,7 +100,6 @@ class Bot extends Client {
 }
 
 const client = new Bot();
-// console.log(client.config.permLevels.map(p => `${p.level}: ${p.name}`.join("\n")));
 
 const init = async () => {
   klaw("./commands").on("data", (item) => {

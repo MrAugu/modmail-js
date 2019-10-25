@@ -6,7 +6,8 @@
   "dependencies": {
     "colors": "^1.4.0",
     "discord.js": "git+https://github.com/discordjs/discord.js.git",
-    "klaw": "^3.0.0"
+    "klaw": "^3.0.0",
+    "mongoose": "^5.7.7"
   },
   "devDependencies": {},
   "scripts": {
