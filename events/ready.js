@@ -11,6 +11,6 @@ module.exports = class {
     await this.client.user.setStatus("online");
     await this.client.user.setActivity(`${this.client.guilds.size} Servers | ${this.client.config.prefix}help`, { type: "WATCHING" });
 
-    this.client.logger.ready(`Logged in as ${this.client.user.tag}. Serving ${this.client.guilds.size} Servers and ${users} Users.`);
+    this.client.logger.ready(`Logged in as ${this.client.user.tag}. Serving ${this.client.guilds.size} Servers and ${this.client.users.size} Users.`);
   }
 };

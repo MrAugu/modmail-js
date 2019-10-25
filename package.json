@@ -4,7 +4,9 @@
   "description": "A modmail bot written in Discord.Js.",
   "main": "index.js",
   "dependencies": {
-    "canvas": "^2.6.0"
+    "colors": "^1.4.0",
+    "discord.js": "git+https://github.com/discordjs/discord.js.git",
+    "klaw": "^3.0.0"
   },
   "devDependencies": {},
   "scripts": {
