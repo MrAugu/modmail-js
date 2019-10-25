@@ -5,6 +5,13 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const klaw = require("klaw");
 const path = require("path");
+const mongoose = require("mongoose");
+const dbUrl = require("./config.js").mongo;
+
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 class Bot extends Client {
   constructor (options) {
@@ -70,7 +77,7 @@ class Bot extends Client {
 
       for (var i = 0; i < size; i++) {
         if (fromTrue === true) {
-          from -= fromRem; 
+          from -= fromRem;
         }
 
         if (toTrue === true) {
@@ -83,11 +90,11 @@ class Bot extends Client {
     this.clean = async (client, text) => {
       if (text && text.constructor.name == "Promise") text = await text;
       if (typeof evaled !== "string") text = require("util").inspect(text, {depth: 0});
-    
+
       text = text.replace(/`/g, "`" + String.fromCharCode(8203))
         .replace(/@/g, "@" + String.fromCharCode(8203))
         .replace(client.token, "nani");
-    
+
       return text;
     };
   }
@@ -153,7 +160,7 @@ const init = async () => {
     const response = client.loadCommand(cmdFile.dir, `${cmdFile.name}${cmdFile.ext}`);
     if (response) client.logger.error(response);
   });
-    
+
   const evtFiles = await readdir("./events/");
   client.logger.log(`Loading a total of ${evtFiles.length} events.`, "log");
   evtFiles.forEach(file => {
@@ -164,7 +171,7 @@ const init = async () => {
     client.on(eventName, (...args) => event.run(...args));
     delete require.cache[require.resolve(`./events/${file}`)];
   });
-    
+
   client.levelCache = {};
   for (let i = 0; i < client.config.permLevels.length; i++) {
     const thisLevel = client.config.permLevels[i];
