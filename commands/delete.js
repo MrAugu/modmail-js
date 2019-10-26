@@ -12,7 +12,7 @@ class Delete extends Command {
       enabled: true,
       guildOnly: true,
       aliases: [],
-      permLevel: "Support Operators",
+      permLevel: "Support Operator",
       cooldown: 5,
       args: false,
       DMonly: false
