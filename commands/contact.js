@@ -73,7 +73,7 @@ class Contact extends Command {
       timestamp: Date.now()
     }).save());
 
-    reply(this.client.emojis.greenTick + " The ticket has been created in <#" + channel + ">.");
+    reply(this.client.config.emojis.greenTick + " The ticket has been created in <#" + channel + ">.");
   }
 }
 
