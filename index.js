@@ -47,6 +47,8 @@ class Bot extends Client {
     this.config = require("./config.js");
     this.commands = new Collection();
     this.aliases = new Collection();
+    this.plugins = new Collection();
+
     this.logger = require("./modules/logger.js");
 
     this.wait = require("util").promisify(setTimeout);
@@ -124,6 +126,22 @@ class Bot extends Client {
     delete require.cache[require.resolve(`${commandPath}${path.sep}${commandName}.js`)];
     return false;
   }
+
+  loadPlugin (pluginPath, pluginName) {
+    try {
+      const props = new (require(`${pluginPath}${path.sep}main`))(this);
+      this.logger.log(`Loading Plugin: ${props.info.name}`, "log");
+      props.info.location = pluginPath;
+      if (props.init) {
+        props.init(this);
+      }
+      this.plugins.set(props.info.name, props);
+      if (props.load) props.load();
+      return false;
+    } catch (e) {
+      return `Unable to load plugin ${pluginName}: ${e}`;
+    }
+  }
 }
 
 const client = new Bot();
@@ -152,6 +170,16 @@ const init = async () => {
     const thisLevel = client.config.permLevels[i];
     client.levelCache[thisLevel.name] = thisLevel.level;
   }
+
+  await client.wait(500);
+
+  klaw("./plugins").on("data", (item) => {
+    const pluginFile = path.parse(item.path);
+    if (pluginFile.ext !== ".js") return;
+    if (pluginFile.name !== "main") return;
+    const response = client.loadPlugin(pluginFile.dir, `${pluginFile.name}${pluginFile.ext}`);
+    if (response) client.logger.error(response);
+  });
 
   client.login(client.config.token);
 };
