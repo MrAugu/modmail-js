@@ -7,6 +7,7 @@ const Schema = new mongoose.Schema({
   channel: { type: String },
   content: { type: String },
   author: { type: String },
+  attachments: { type: Array },
   timestamp: { type: Number }
 });
 

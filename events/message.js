@@ -23,7 +23,10 @@ module.exports = class {
 
     const level = await this.client.permlevel(message);
 
-    if (cmd.conf.enabled === false) return reply(this.client.config.emojis.redTick + " This command is currently globally disabled.");
+    if (cmd && !message.guild && cmd.conf.guildOnly) return reply(this.client.config.emojis.redTick + "This command is unavailable via private message, please run this command in a server.");
+
+    if (cmd.conf.DMonly === true && message.guild) return reply(this.client.config.emojis.redTick + " This command can only be used in direct messages, please run this command in the private messages.");
+    if (cmd.conf.enabled === false) return reply(this.client.config.emojis.redTick + " This command is disabled.");
 
     if (cmd.conf.args === true && !args.length) {
       return reply(`${this.client.config.emojis.redTick} You haven't provided any arguments. Correct Usage: \`${this.client.config.prefix}${cmd.help.name} ${cmd.help.usage}\``);
@@ -53,17 +56,15 @@ module.exports = class {
     }
 
 
-    if (cmd && !message.guild && cmd.conf.guildOnly) return message.channel.send(this.client.emojis.redTick + "This command is unavailable via private message.\n**Please run this command in a server.**");
-
     if (level < this.client.levelCache[cmd.conf.permLevel]) return reply(`${this.client.config.emojis.redTick} You do not have the required permission to execute this command, the permission you need is \`${cmd.conf.permLevel}\`.`);
 
-    try {
+    // try {
       message.channel.startTyping(100);
       await cmd.run(message, args, level, reply);
       message.channel.stopTyping(true);
-    } catch (e) {
-      reply(`${this.client.config.emojis.redTick} **Oops, seems like these was an error executing command. Please open an issue at https://github.com/MrAugu/modmail-js/issues.`);
-      await message.channel.stopTyping(true);
-    }
+    // } catch (e) {
+    //   reply(`${this.client.config.emojis.redTick} **Oops, seems like these was an error executing command. Please open an issue at https://github.com/MrAugu/modmail-js/issues.`);
+    //   await message.channel.stopTyping(true);
+    // }
   }
 };

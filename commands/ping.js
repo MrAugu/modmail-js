@@ -1,6 +1,6 @@
 const Command = require("../base/Command");
 
-class PingCmd extends Command {
+class Ping extends Command {
   constructor (client) {
     super(client, {
       name: "ping",
@@ -12,7 +12,8 @@ class PingCmd extends Command {
       aliases: [],
       permLevel: "User",
       cooldown: 5,
-      args: false
+      args: false,
+      DMonly: false
     });
   }
 
@@ -24,4 +25,4 @@ class PingCmd extends Command {
   }
 }
 
-module.exports = PingCmd;
+module.exports = Ping;

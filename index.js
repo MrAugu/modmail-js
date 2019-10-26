@@ -28,8 +28,6 @@ class Bot extends Client {
       const ms = await msg.channel.send(question);
       try {
         const collected = await msg.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
-        await collected.first().delete();
-        await ms.delete();
         return collected.first().content;
       } catch (e) {
         return false;
@@ -67,7 +65,7 @@ class Bot extends Client {
   loadCommand (commandPath, commandName) {
     try {
       const props = new (require(`${commandPath}${path.sep}${commandName}`))(this);
-      this.logger.log(`Loading Command: ${props.help.name}. 👌`, "log");
+      this.logger.log(`Loading Command: ${props.help.name}`, "log");
       props.conf.location = commandPath;
       if (props.init) {
         props.init(this);
@@ -78,6 +76,7 @@ class Bot extends Client {
       });
       return false;
     } catch (e) {
+      throw e;
       return `Unable to load command ${commandName}: ${e}`;
     }
   }

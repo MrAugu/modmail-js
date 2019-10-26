@@ -4,6 +4,10 @@ const config = {
   "owner": "BOT_OWNER_ID",
   "admins": [],
   "mongo": "MONGODB_URL",
+  "mainGuild": "GUILD_ID",
+  "staffGuild": "GUILD_ID",
+  "parent": "GUILD_CATEGORY_ID", // This should be inside staff's guild.
+  "supportRole": "ROLE_ID",
 
   "emojis": {
     "redTick": "❌",

@@ -9,12 +9,13 @@ class Command {
     aliases = new Array(),
     permLevel = "User",
     cooldown = 3,
-    args = false
+    args = false,
+    DMonly = false
   }) {
     this.client = client;
-    this.conf = { enabled, guildOnly, aliases, permLevel, cooldown, args };
+    this.conf = { enabled, guildOnly, aliases, permLevel, cooldown, args, DMonly };
     this.help = { name, description, category, usage };
   }
 }
-    
-module.exports = Command;  
+
+module.exports = Command;
