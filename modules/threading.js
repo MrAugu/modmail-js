@@ -65,9 +65,15 @@ class Threading {
       .setColor("YELLOW")
       .setTimestamp()
       .setFooter("Support Assistant");
+    if (isAnonymous) message.content = message.content.slice(2);
+    
+    if (message.content.startsWith("s-")) message.content = message.content.slice(2);
+    const snippt = await Snippet.findOne({ keyword: message.content });
+    if (!snippt) return reply(`${client.config.emojis.redTick} No \`${message.content}\` snippet was found, add one using \`${client.config.prefix}snippet\` command.\n\n*Recipient of this thread can not see this message.*`);
+    message.content = snippt.content;
 
     if (isAnonymous) {
-      contentEmbed.setDescription(message.content.slice(2));
+      contentEmbed.setDescription(message.content);
     } else {
       contentEmbed.setAuthor(message.author.tag, message.author.displayAvatarURL());
       contentEmbed.setDescription(message.content);
