@@ -6,6 +6,34 @@ const readdir = promisify(require("fs").readdir);
 const klaw = require("klaw");
 const path = require("path");
 const mongoose = require("mongoose");
+const fs = require("fs");
+
+try {
+  require("./configuration.json");
+} catch (e) {
+  console.log("[Startup Log]: Configuration file not found.");
+  console.log("[Startup Log]: Creating a configuration file...");
+  const defaults = {
+    "_token": "TOKEN",
+    "_prefix": "-",
+    "_owner": "ID",
+    "_admins": [],
+    "_mongoUri": "MONGODB_URL",
+    "_mainGuild": "ID",
+    "_staffGuild": "ID",
+    "_parent": "ID",
+    "_supportRole": "ID",
+    "_redTickEmoji": "❌",
+    "_greenTickEmoji": "✅"
+  };
+
+  fs.writeFileSync("configuration.json", JSON.stringify(defaults, null, 4));
+
+  console.log("[Startup Log]: Created a new configuration file.");
+  console.log("[Startup Log]: Use 'node configurer.js' to edit your configuration via interactive command line interface.");
+  process.exit(1);
+}
+
 const dbUrl = require("./config.js").mongo;
 
 mongoose.connect(dbUrl, {
