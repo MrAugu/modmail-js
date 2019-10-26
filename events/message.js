@@ -8,8 +8,8 @@ module.exports = class {
   }
 
   async run (message) {
-    Threading.message(this.client, message);
-    
+    if (!message.content.startsWith("-")) Threading.message(this.client, message);
+
     if (message.author.bot) return;
 
     const reply = (c) => message.channel.send(c);

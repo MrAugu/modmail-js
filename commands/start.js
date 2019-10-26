@@ -58,7 +58,7 @@ class Start extends Command {
 
     var threadID = await Thread.countDocuments();
     threadID += 1;
-    
+
     await (new Thread({
       id: threadID,
       recipient: message.author.id,
@@ -67,6 +67,8 @@ class Start extends Command {
       issue: issue,
       timestamp: Date.now()
     }).save());
+
+    reply("A ticket has been started in this channel type `-close` to close it.");
   }
 }
 

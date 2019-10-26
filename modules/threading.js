@@ -101,7 +101,7 @@ class Threading {
       timestamp: Date.now()
     }).save());
 
-    await message.react(client.config.emojis.greenTick);
+    await message.delete().catch(e => {});
   }
 }
 
