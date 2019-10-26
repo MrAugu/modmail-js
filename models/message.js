@@ -8,7 +8,8 @@ const Schema = new mongoose.Schema({
   content: { type: String },
   author: { type: String },
   attachments: { type: Array },
-  timestamp: { type: Number }
+  timestamp: { type: Number },
+  anonymous: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model("messages", Schema);

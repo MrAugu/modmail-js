@@ -1,5 +1,6 @@
 const Discord = require("discord.js"); // eslint-disable-line no-unused-vars
 const cooldowns = new Discord.Collection();
+const Threading = require("../modules/threading.js");
 
 module.exports = class {
   constructor (client) {
@@ -7,6 +8,8 @@ module.exports = class {
   }
 
   async run (message) {
+    Threading.message(this.client, message);
+    
     if (message.author.bot) return;
 
     const reply = (c) => message.channel.send(c);
