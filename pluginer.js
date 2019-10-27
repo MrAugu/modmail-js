@@ -31,19 +31,35 @@ async function main () {
         process.exit(1);
       }
 
+      json.tree = json.tree.filter(i => i.path.includes("."));
+
+      await fs.mkdir(`pluins/${registry[input].name}`, { recursive: true }, (err) => {
+        if (err) console.log(err);
+      });
+
+      var folders = json.tree.filter(i => i.path.includes("/"));
+      folders = folders.map(f => f.path);
+
+      for (var x = 0; x < folders.length; x++) {
+        var fds = folders[x].split("/");
+        fds.pop();
+        console.log(fds);
+
+        await fs.mkdir(`plugins/${registry[input].name}/` + fds.join("/"), { recursive: true }, (err) => {
+          if (err) console.log(err);
+        });
+      }
+
       for (var i = 0; i < json.tree.length; i++) {
-        const rawFile = await fetch(`https://api.github.com/repos/${registry[input].repository}/contents/${json.tree[i].path}`, {
+        const rawFile = await fetch(`https://raw.githubusercontent.com/${registry[input].repository}/${registry[input].tree}/${json.tree[i].path}`, {
           headers: { "User-Agent": "MrAugu" }
         });
 
-        var file = await rawFile.json();
-        var contents;
-        if (file.contents) contents = Buffer.from(file.content, "base64").toString("ascii");
-        if (!file.contents) contents = await(await (fetch(`${file.download_url}`, {
-          headers: { "User-Agent": "MrAugu" }
-        })).text());
+        var file = await rawFile.text();
 
-        await fs.appendFile(`pluins/${registry[input].name}/` + json.tree[i].path, `${contents}`, (e) => {});
+        await fs.appendFile(`plugins/${registry[input].name}/` + json.tree[i].path, `${file}`, (e) => {
+          if (e) console.log(e);
+        });
       }
     } else {
       var [user, repo] = input.split("/");
@@ -82,7 +98,7 @@ async function main () {
 
           const fileMap = json.tree.map(i => i.name);
           if (!fileMap.includes("main.js") && !fileMap.includes("meta.json")) return console.log("\nSpecified repository is NOT a plugin.\n");
-
+          console.log(fileMap);
           for (var i = 0; i < json.tree.length; i++) {
             const rawFile = await fetch(`https://api.github.com/repos/${user}/${repository}/contents/${json.tree[i].path}`, {
               headers: { "User-Agent": "MrAugu" }
