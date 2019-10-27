@@ -67,10 +67,12 @@ class Threading {
       .setFooter("Support Assistant");
     if (isAnonymous) message.content = message.content.slice(2);
 
-    if (message.content.startsWith("s-")) message.content = message.content.slice(2);
-    const snippt = await Snippet.findOne({ keyword: message.content });
-    if (!snippt) return message.channel.send(`${client.config.emojis.redTick} No \`${message.content}\` snippet was found, add one using \`${client.config.prefix}snippet\` command.\n\n*Recipient of this thread can not see this message.*`);
-    message.content = snippt.content;
+    if (message.content.startsWith("s-")) {
+       message.content = message.content.slice(2);
+      const snippt = await Snippet.findOne({ keyword: message.content });
+      if (!snippt) return message.channel.send(`${client.config.emojis.redTick} No \`${message.content}\` snippet was found, add one using \`${client.config.prefix}snippet\` command.\n\n*Recipient of this thread can not see this message.*`);
+      message.content = snippt.content;
+    }
 
     if (isAnonymous) {
       contentEmbed.setDescription(message.content);
@@ -79,13 +81,14 @@ class Threading {
       contentEmbed.setDescription(message.content);
     }
 
-    user.send(contentEmbed).catch(e => {});
-    channel.send(contentEmbed).catch(e => {});
+    if (message.content.length > 0) user.send(contentEmbed).catch(e => {});
+    if (message.content.length > 0) channel.send(contentEmbed).catch(e => {});
     message.attachments.forEach(attachment => {
       let embed = new Discord.MessageEmbed()
-        .setColor("ORANGE")
+        .setColor("YELLOW")
         .setImage(attachment.proxyURL)
-        .setFooter("Support Assistant");
+        .setFooter("Support Assistant")
+        .setTimestamp();
       if (!isAnonymous) {
         embed.setAuthor(message.author.tag, message.author.displayAvatarURL());
       }
