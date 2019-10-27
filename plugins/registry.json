@@ -3,8 +3,8 @@
     "repository": "MrAugu/modmail-demo-plugin",
     "version": "1.0.0",
     "description": "A demo plugin to show the basics on how to create one yourself.",
-    "branch": "master",
+    "tree": "master",
     "title": "Demo Plugin",
-    "name": "demo-plugin"
+    "name": "demo"
   }
 }
