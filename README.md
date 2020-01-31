@@ -1,4 +1,5 @@
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)]
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-no-red.svg)]
+While project does not get active maintenance and updates, issues are adressed and pull requests reviewed. 
 ---
 *[For help and support join my discord server, click on this.](https://discord.gg/rk7cVyk)*
 
