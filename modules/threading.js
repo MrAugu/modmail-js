@@ -21,7 +21,7 @@ class Threading {
   }
 
   static async dm (client, message, thread) {
-    const channel = client.channels.get(thread.channel);
+    const channel = client.channels.cache.get(thread.channel);
     if (!channel) message.channel.send(`Channel for thread ${thread.id} can not be found.`);
 
     const contentEmbed = new Discord.MessageEmbed()
@@ -57,8 +57,8 @@ class Threading {
   }
 
   static async channel (client, message, thread, isAnonymous) {
-    const user = client.users.get(thread.recipient);
-    const channel = client.channels.get(thread.channel);
+    const user = client.users.cache.get(thread.recipient);
+    const channel = client.channels.cache.get(thread.channel);
     if (!user) message.chamnel.send(`Recipient for thread ${thread.id} can not be found.`);
 
     let contentEmbed = new Discord.MessageEmbed()
