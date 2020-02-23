@@ -56,8 +56,8 @@ class Close extends Command {
         .setTimestamp();
     }
 
-    this.client.users.get(thread.recipient).send(embed).catch(e => {});
-    this.client.channels.get(thread.channel).send(embed).catch(e => {});
+    this.client.users.cache.get(thread.recipient).send(embed).catch(e => {});
+    this.client.channels.cache.get(thread.channel).send(embed).catch(e => {});
 
     reply(`Ticket **#${thread.id}** has been closed.`);
   }
