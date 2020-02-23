@@ -9,11 +9,11 @@ module.exports = class {
     await this.client.wait(1000);
 
     await this.client.user.setStatus("online");
-    await this.client.user.setActivity(`${this.client.guilds.size} Servers | ${this.client.config.prefix}help`, { type: "WATCHING" });
+    await this.client.user.setActivity(`${this.client.guilds.cache.size} Servers | ${this.client.config.prefix}help`, { type: "WATCHING" });
 
-    this.client.staffGuild = this.client.guilds.get(this.client.config.staffGuild);
-    this.client.mainGuild = this.client.guilds.get(this.client.config.mainGuild);
+    this.client.staffGuild = this.client.guilds.cache.get(this.client.config.staffGuild);
+    this.client.mainGuild = this.client.guilds.cache.get(this.client.config.mainGuild);
 
-    this.client.logger.ready(`Logged in as ${this.client.user.tag}. Serving ${this.client.guilds.size} Servers and ${this.client.users.size} Users.`);
+    this.client.logger.ready(`Logged in as ${this.client.user.tag}. Serving ${this.client.guilds.cache.size} Servers and ${this.client.users.cache.size} Users.`);
   }
 };
