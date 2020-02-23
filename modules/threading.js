@@ -9,7 +9,7 @@ class Threading {
 
     if (message.channel.type === "dm") {
       const recipientThread = await Thread.findOne({ recipient: message.author.id, closed: false });
-      if (!recipientThread) return;
+      if (!recipientThread) return message.channel.send(`Hello! If you wish to start a new ticket, please use \`${client.config.prefix}start\`.`);
 
       this.dm(client, message, recipientThread);
     } else if (message.channel.type === "text") {
